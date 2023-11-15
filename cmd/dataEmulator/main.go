@@ -1,26 +1,25 @@
 package main
 
 import (
-	"fmt"
 	"github.com/Q1KLLI/oilProductionAI/internal/dbController"
 	"github.com/Q1KLLI/oilProductionAI/internal/emulatorConfig"
 	"log"
 )
 
+const ConfigFilename = `C:\repositories\oilProductionAI\config\emulatorConfig.yml`
+
 func main() {
 
-	conf := emulatorConfig.NewConfig(`D:\repo\oilProductionAI\config\emulatorConfig.yml`)
+	conf := emulatorConfig.NewConfig(ConfigFilename)
 
 	db, err := dbController.NewDatabase(conf.DBConfig)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	wellIDs, err := db.WellIDs()
+	wells, err := db.Wells()
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(wellIDs)
 
 }
