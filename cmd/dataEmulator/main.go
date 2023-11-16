@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-const ConfigFilename = `C:\repositories\oilProductionAI\config\emulatorConfig.yml`
+const ConfigFilename = `d:\repo\oilProductionAI\config\emulatorConfig.yml`
 
 func main() {
 
@@ -22,4 +22,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	for _, well := range wells {
+		well.State = !well.State
+		err = db.AddEvent(well.ID, well.State)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }

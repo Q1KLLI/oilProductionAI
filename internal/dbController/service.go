@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"fmt"
 	"github.com/Q1KLLI/oilProductionAI/internal/logic"
+	"time"
 )
 
 //go:embed query/wells.sql
@@ -54,4 +55,17 @@ func (d *Database) Wells() ([]*logic.Well, error) {
 		}
 	}
 	return wells, nil
+}
+
+func (d *Database) AddEvent(wellID int, event bool) error {
+	_, err := d.db.Exec(
+		`insert into state (well_id, dt, event) VALUES (?,?,?)`,
+		wellID,
+		time.Now().Format(time.DateTime),
+		event,
+	)
+	if err != nil {
+		return fmt.Errorf("unbale to insert event into state table: %w", err)
+	}
+	return nil
 }
